@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
+  </script>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Field configs</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  </head>
+
+  <body>
+    <h1>Field configs table</h1>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <form>
+          <p>Update Current to the following</p>
+          <input type="radio" name="gender" value="planned" checked> Planned<br>
+          <input type="radio" name="gender" value=""> Other<br><br>
+          <input type="submit">
+        </form>
+      </div>
+    </div>
+
+    <table id="filtertable">
+      <thead>
+        <tr>
+          <th colspan="2">Equipment</th>
+          <th colspan="2">Shell</th>
+          <th colspan="5">Planned</th>
+          <th colspan="5">Currently</th>
+          <th colspan="1">Previously</th>
+        </tr>
+        <tr>
+          <th>Name</th>
+          <th>Number</th>
+          <th>Name</th>
+          <th>City</th>
+          <th>Version</th>
+          <th>Baseline</th>
+          <th>Date</th>
+          <th>Person</th>
+          <th>Checksum</th>
+          <th>Version</th>
+          <th>Baseline</th>
+          <th>Date</th>
+          <th>Person</th>
+          <th>Checksum</th>
+          <th>All (JSON array)</th>
+        </tr>
+      </thead>
+      <tbody id="tablebody"></tbody>
+    </table>
+
+    <script src="tablefilter/tablefilter.js"></script>
+    
+
+    <script data-config>
+      var filtersConfig = {
+        base_path: 'tablefilter/',
+        col_0: 'select',
+        col_1: 'select',
+        col_2: 'select',
+        col_3: 'select',
+        col_4: 'select',
+        col_5: 'select',
+        col_6: 'select',
+        col_7: 'select',
+        col_8: 'select',
+        col_9: 'select',
+        col_10: 'select',
+        col_11: 'select',
+        col_12: 'select',
+        col_13: 'select',
+        alternate_rows: true,
+        rows_counter: true,
+        btn_reset: true,
+        loader: true,
+        status_bar: true,
+        mark_active_columns: true,
+        highlight_keywords: true,
+        col_types: [
+          'string', 'string', 'number',
+          'number', 'number', 'number',
+          'number', 'number', 'number'
+        ],
+        extensions: [{
+          name: 'sort'
+        }]
+      };
+    </script>
+
+    <script>
+      var tf;
+      $.ajax({
+        'url': 'php/mongoget.php',
+        'dataType': 'JSON',
+        'success': function (data) {
+          var row = "";
+
+          data.forEach(el => {
+            if(el.Configuration.Planned.Version == el.Configuration.Currently.Version){
+              color = "#03730030"
+            }
+            else{
+              color = "#b300003d"
+            }
+
+            var t = ` 
+            <tr style='background-color:${color}' class='tablerows'>
+              <td> ${el.Equipment.Name} </td>
+              <td> ${el.Equipment.Number} </td>
+              <td> ${el.Shell.Name} </td>
+              <td> ${el.Shell.City} </td>
+              <td> ${el.Configuration.Planned.Version} </td>
+              <td> ${el.Configuration.Planned.Baseline} </td>
+              <td> ${el.Configuration.Planned.Date} </td>
+              <td> ${el.Configuration.Planned.Person} </td>
+              <td> ${el.Configuration.Planned.Checksum} </td>
+
+              <td> ${el.Configuration.Currently.Version} </td>
+              <td> ${el.Configuration.Currently.Baseline} </td>
+              <td> ${el.Configuration.Currently.Date} </td>
+              <td> ${el.Configuration.Currently.Person} </td>
+              <td> ${el.Configuration.Currently.Checksum} </td>
+
+              <td> ${JSON.stringify(el.Configuration.Previously)} </td>            
+            </tr>`;
+            $("#tablebody").append(t)
+          });
+          
+          tf = new TableFilter('filtertable', filtersConfig);
+          tf.init(); setEvents();
+        },
+        'error': function (data) {
+          console.log("Error");
+        }
+
+      })
+    </script>
+    <script src="js/scripts.js"></script>
+  </body>
+
+</html>
+
