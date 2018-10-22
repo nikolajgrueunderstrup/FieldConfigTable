@@ -33,27 +33,27 @@
     <table id="filtertable">
       <thead>
         <tr>
-          <th colspan="2">Equipment</th>
-          <th colspan="2">Shell</th>
-          <th colspan="5">Planned</th>
+          <th colspan="4">Equipment</th>
+          <th colspan="3">Planned</th>
           <th colspan="5">Currently</th>
           <th colspan="1">Previously</th>
         </tr>
         <tr>
-          <th>Name</th>
-          <th>Number</th>
-          <th>Name</th>
-          <th>City</th>
+          <th>Item ID</th>
+          <th>Station</th>
+          <th>Line</th>
+          <th>TOB Relation</th>
+
+          <th>Version</th>
+          <th>Baseline</th>
+          <th>Checksum</th>
+
           <th>Version</th>
           <th>Baseline</th>
           <th>Date</th>
           <th>Person</th>
           <th>Checksum</th>
-          <th>Version</th>
-          <th>Baseline</th>
-          <th>Date</th>
-          <th>Person</th>
-          <th>Checksum</th>
+
           <th>All (JSON array)</th>
         </tr>
       </thead>
@@ -66,7 +66,7 @@
     <script data-config>
       var filtersConfig = {
         base_path: 'tablefilter/',
-        col_0: 'select',
+        //col_0: 'select',
         col_1: 'select',
         col_2: 'select',
         col_3: 'select',
@@ -78,8 +78,8 @@
         col_9: 'select',
         col_10: 'select',
         col_11: 'select',
-        col_12: 'select',
-        col_13: 'select',
+        filters_row_index: 2,
+        headers_row_index: 1,
         alternate_rows: true,
         rows_counter: true,
         btn_reset: true,
@@ -88,9 +88,9 @@
         mark_active_columns: true,
         highlight_keywords: true,
         col_types: [
-          'string', 'string', 'number',
-          'number', 'number', 'number',
-          'number', 'number', 'number'
+          'string', 'string', 'string',
+          'string', 'number', 'number',
+          'string', 'number', 'number'
         ],
         extensions: [{
           name: 'sort'
@@ -116,16 +116,13 @@
 
             var t = ` 
             <tr style='background-color:${color}' class='tablerows'>
-              <td> ${el.Equipment.Name} </td>
-              <td> ${el.Equipment.Number} </td>
-              <td> ${el.Shell.Name} </td>
-              <td> ${el.Shell.City} </td>
+              <td> ${el.Equipment["Item Id"]} </td>
+              <td> ${el.Equipment.Station} </td>
+              <td> ${el.Equipment.Line} </td>
+              <td> ${el.Equipment["TOB Relation"]} </td>
               <td> ${el.Configuration.Planned.Version} </td>
               <td> ${el.Configuration.Planned.Baseline} </td>
-              <td> ${el.Configuration.Planned.Date} </td>
-              <td> ${el.Configuration.Planned.Person} </td>
               <td> ${el.Configuration.Planned.Checksum} </td>
-
               <td> ${el.Configuration.Currently.Version} </td>
               <td> ${el.Configuration.Currently.Baseline} </td>
               <td> ${el.Configuration.Currently.Date} </td>
@@ -137,7 +134,7 @@
             $("#tablebody").append(t)
           });
           
-          tf = new TableFilter('filtertable', filtersConfig);
+          tf = new TableFilter('filtertable', 2, filtersConfig);
           tf.init(); setEvents();
         },
         'error': function (data) {
