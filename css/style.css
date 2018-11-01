@@ -40,3 +40,7 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+
+#tablebody tr {
+  cursor: pointer;
+}

@@ -208,7 +208,7 @@ select[multiple="multiple"].ezSelectEditor {
   display: block;
   color: #444;
   background-color: #fff;
-  border: 1px inset #f4f4f4;
+  border: 1px inset #f4f4f485;
   margin: 0;
   padding: 0 0 0 .2em;
   width: 100%;
@@ -751,9 +751,9 @@ table.TF th {
   height: 35px;
   margin: 0;
   background-color: #eaeaea;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #cccccc75;
   border-top: 1px solid #f4f4f4;
-  border-left: 1px solid #ccc;
+  border-left: 1px solid #cccccc75;
   border-right: 1px solid #f4f4f4;
   padding: .1em 1.0em .1em .5em;
   color: #333;
@@ -766,7 +766,8 @@ table.TF th:last-child {
 table.TF td {
   margin: 0;
   padding: .5em .7em;
-  border-bottom: 1px solid #c6c6c6;
+  border-bottom: 1px solid #ffffff59;
+  border-top: 1px solid #3333330a;
   text-overflow: ellipsis
 }
 
